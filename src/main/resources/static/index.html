@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="demo">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+<script src="js/index.js"></script>
+<title>TDBI 2016</title>
+
+<!-- Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+	<div class="well">
+		<center>
+			<img alt="Brand" src="images/tdbi.jpeg" class="img-responsive">
+			<h1>Utvärdering Tech Day By Init 2016</h1>
+		</center>
+
+		<div ng-controller="Hello">
+			<form novalidate id="form" method="post" class="form-horizontal" role="form">
+				<div ng-repeat="question in questionList">
+					<h4>{{question.id}} {{question.displayText}}</h4>
+					<p>
+					<div class="btn-group btn-group-justified" data-toggle="buttons">
+						<div class="input-group-addon">instämmer inte</div>
+						<label class="btn btn-primary active"> <input type="radio"
+							ng-model="question.answer.value" id="{{question.id}}_option1" autocomplete="off"
+							checked> 1
+						</label> <label class="btn btn-primary"> <input type="radio"
+							ng-model="question.answer.value" id="{{question.id}}_option2" autocomplete="off">
+							2
+						</label> <label class="btn btn-primary"> <input type="radio"
+							ng-model="question.answer.value" id="{{question.id}}_option3" autocomplete="off">
+							3
+						</label> <label class="btn btn-primary"> <input type="radio"
+							ng-model="question.answer.value" id="{{question.id}}_option4" autocomplete="off">
+							4
+						</label> <label class="btn btn-primary"> <input type="radio"
+							ng-model="question.answer.value" id="{{question.id}}_option5" autocomplete="off">
+							5
+						</label> <label class="btn btn-primary"> <input type="radio"
+							ng-model="question.answer.value" id="{{question.id}}_option6" autocomplete="off">
+							6
+						</label>
+						<div class="input-group-addon">instämmer helt</div>
+					</div>
+					</p>
+					<p>
+						<label class="sr-only" for="exampleInputAmount"></label>
+					<div class="input-group">
+						<div class="input-group-addon">Kommentar</div>
+						<input type="text" ng-model="question.answer.comment" class="form-control"
+							id="{{question.id}}_comment" placeholder="Jag tyckte att...">
+					</div>
+					</p>
+				</div>
+
+
+				<p>
+				<div class="input-group">
+					<div class="input-group-addon">Övriga kommentarer</div>
+					<input type="text" ng-model="other" class="form-control" id="formGroupExampleInput"
+						placeholder="För övrigt anser jag att Kartago bör förstöras...">
+				</div>
+				</p>
+				<button ng-click="update(questionList, other)" class="btn btn-primary">Skicka in</button>
+			</form>
+		</div>
+	</div>
+
+
+	<!--  -->
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
