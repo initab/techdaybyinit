@@ -29,6 +29,22 @@ The application take a few seconds to start. To test it:
 
     curl http://localhost/health
 
+## Scene 2: No database passwords
+
+### Clear away the existing database
+    docker stop yorick yorick-db
+    docker rm yorick-db yorick
+    docker rmi initdemo/yorick-db
+    docker rmi initdemo/yorick
+    docker rm --volumes yorick-db-storage
+
+Developers will have pushed updated images.
+
+### Recreate the containers as in scene 1
+    docker create -v /var/lib/postgresql/data --name yorick-db-storage postgres:9.6 /bin/true
+    docker run -d --volumes-from yorick-db-storage --name yorick-db initdemo/yorick-db
+    docker run -d -p 80:8090 --link yorick-db --name yorick initdemo/yorick
+
 
 ## Epilogue: The cleanups
 

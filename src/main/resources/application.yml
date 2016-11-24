@@ -7,4 +7,4 @@ spring:
   datasource:
     url: jdbc:postgresql://yorick-db/yorick
     username: yorick
-    password: yorick
+    password: 
