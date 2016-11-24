@@ -45,6 +45,43 @@ Developers will have pushed updated images.
     docker run -d --volumes-from yorick-db-storage --name yorick-db initdemo/yorick-db
     docker run -d -p 80:8090 --link yorick-db --name yorick initdemo/yorick
 
+## Scene 3: Let's Encrypt!
+
+LetsEncrypt will take care of our TLS certificate needs. We also uses Nginx as a reverse proxy for the TLS part.
+
+### Remove old public web server
+    docker stop yorick && docker rm yorick
+
+### Start up NGINX and LetsEncrypt
+    mkdir -p /certs
+
+    docker run -d \
+       --name nginx-proxy \
+       -p 80:80 -p 443:443 \
+       -v /certs:/etc/nginx/certs:ro \
+       -v /etc/nginx/vhost.d \
+       -v /usr/share/nginx/html \
+       -v /var/run/docker.sock:/tmp/docker.sock:ro \
+       jwilder/nginx-proxy
+
+    docker run -d \
+       --name letsencrypt \
+       --volumes-from nginx-proxy \
+       -v /certs:/etc/nginx/certs:rw \
+       -v /var/run/docker.sock:/var/run/docker.sock:ro \
+       jrcs/letsencrypt-nginx-proxy-companion
+
+### Start up the Yorick application behind NGINX
+    docker run -d \
+       --name yorick \
+       --link yorick-db \
+       --expose=8090 \
+       -e "VIRTUAL_HOST=demo.init.se" \
+       -e "VIRTUAL_PORT=8090" \
+       -e "LETSENCRYPT_HOST=demo.init.se" \
+       -e "LETSENCRYPT_EMAIL=live-demo@init.se" \
+       initdemo/yorick
+
 
 ## Epilogue: The cleanups
 
