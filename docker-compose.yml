@@ -1,0 +1,52 @@
+version: '2'
+services:
+  nginx-proxy:
+    image: "jwilder/nginx-proxy"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /certs:/etc/nginx/certs:ro
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+  oauth2-proxy:
+    image: "skippy/oauth2_proxy"
+    expose:
+      - "4180"
+    environment:
+      - VIRTUAL_HOST=demo.init.se
+      - VIRTUAL_PORT=4180
+      - LETSENCRYPT_HOST=demo.init.se
+      - LETSENCRYPT_EMAIL=live-demo@init.se
+    entrypoint:
+      - oauth2_proxy
+      - -client-id=783181937103-n0cvurbf63qjg03ln2u2b70mi73i2bhv.apps.googleusercontent.com
+      - -client-secret=<secret>
+      - -http-address=0.0.0.0:4180
+      - -redirect-url=https://demo.init.se/oauth2/callback
+      - -upstream=http://yorick:8090
+      - -cookie-secret=BmhwRCl/YfwbHS2xzqQCFg==
+      - -email-domain=*
+    depends_on:
+      - yorick
+      - letsencrypt
+  letsencrypt:
+    image: "jrcs/letsencrypt-nginx-proxy-companion"
+    depends_on:
+      - nginx-proxy
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      - /certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+  yorick:
+    image: "initdemo/yorick"
+    depends_on:
+      - yorick-db
+  yorick-db:
+    image: "initdemo/yorick-db"
+    volumes:
+      - yorick-db-storage:/var/lib/postgresql/data
+volumes:
+  yorick-db-storage:

@@ -111,6 +111,25 @@ The oauth2_proxy acts as a link between the NGINX and the yorick application.
        -client-id=783181937103-n0cvurbf63qjg03ln2u2b70mi73i2bhv.apps.googleusercontent.com \
        -client-secret=<secret>
 
+## Scene 5: Automate the setup with docker-compose
+
+We are now using 6 different containers, and all the command line arguments are becoming unwieldy. Let's describe our solution in the file 'docker-compose.yml'. We can then let the 'docker-compose' tool set it all up automatically for us from scratch.
+
+Let's remove all our containers and volumes:
+    
+    docker stop $(docker ps -q)
+    docker rm --volumes $(docker ps -aq)
+    
+Then, with our docker-compose.yml in place, we just need to run:
+
+    docker-compose up
+
+And when we want to take everything down, we simply run
+    
+    docker-compose down
+    
+and all our containers will be stopped.
+
 
 ## Epilogue: The cleanups
 
