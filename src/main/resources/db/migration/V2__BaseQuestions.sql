@@ -6,5 +6,5 @@ INSERT INTO question (id, display_text) VALUES (5, 'Innehållet och framställni
 INSERT INTO question (id, display_text) VALUES (6, 'Innehållet och framställningen av "IoT från scratch" kändes bra och relevant till ämnet');
 INSERT INTO question (id, display_text) VALUES (7, 'Innehållet och framställningen av "Expandera utan smärta - Investera i Devops" kändes bra och relevant till ämnet');
 INSERT INTO question (id, display_text) VALUES (8, 'Innehållet och framställningen av "Never gonna give you up - http/2 och vidare" kändes bra och relevant till ämnet');
-INSERT INTO question (id, display_text) VALUES (9, 'Innehållet och framställningen av "Ransonware - Det går inte att stoppa men hur kan man förhindra konsekvenserna när det händer" kändes bra och relevant till ämnet');
+INSERT INTO question (id, display_text) VALUES (9, 'Innehållet och framställningen av "Ransomware - Det går inte att stoppa men hur kan man förhindra konsekvenserna när det händer" kändes bra och relevant till ämnet');
 INSERT INTO question (id, display_text) VALUES (10, 'Innehållet och framställningen av "Omgiven av idioter - hur man förstår dem som inte går att förstå" kändes bra och relevant till ämnet');
