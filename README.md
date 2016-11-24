@@ -82,6 +82,35 @@ LetsEncrypt will take care of our TLS certificate needs. We also uses Nginx as a
        -e "LETSENCRYPT_EMAIL=live-demo@init.se" \
        initdemo/yorick
 
+## Scene 4: Introduce OAuth2 as a way to identify our users
+
+### Remove the application
+    docker stop yorick && docker rm yorick
+
+### Start the application without mapping any ports to the host's ports
+    docker run -d --name yorick --link yorick-db initdemo/yorick
+
+### Start up oauth2_proxy
+
+The oauth2_proxy acts as a link between the NGINX and the yorick application.
+
+    docker run -d \
+       --name oauth2_proxy \
+       --link yorick \
+       --expose=4180 \
+       -e "VIRTUAL_HOST=demo.init.se" \
+       -e "VIRTUAL_PORT=4180" \
+       -e "LETSENCRYPT_HOST=demo.init.se" \
+       -e "LETSENCRYPT_EMAIL=live-demo@init.se" \
+       skippy/oauth2_proxy \
+       -http-address="0.0.0.0:4180" \
+       -redirect-url="https://demo.init.se/oauth2/callback" \
+       -upstream="http://yorick:8090" \
+       -email-domain="*" \
+       -cookie-secret=BmhwRCl/YfwbHS2xzqQCFg== \
+       -client-id=783181937103-n0cvurbf63qjg03ln2u2b70mi73i2bhv.apps.googleusercontent.com \
+       -client-secret=<secret>
+
 
 ## Epilogue: The cleanups
 
